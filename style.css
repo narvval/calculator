@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.frame {
+    width: 400px;
+    background-color: slategray;
+    margin: auto;
+    margin-top: 100px;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.display {
+    height: 80px;
+    background-color: lightgrey;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+button {
+    height: 70px;
+    /* width: 90px; */
+    background-color: rgb(174, 214, 104);
+    color:;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: 25px;
+    font-weight: bold;
+    flex: 20%;
+
+}
+
+
+.zero {
+    flex: 40%;
+}
+
+.divide, .multiply, .substract, .add, .equals {
+    background-color: rgb(244, 175, 65);
+}
+
+.clear, .delete, .percent {
+    background-color: rgb(104, 174, 214);
+}
