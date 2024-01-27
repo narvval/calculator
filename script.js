@@ -110,22 +110,14 @@ function displayZeroError() {
 function operate(num1, operator, num2) {
     switch (operator) {
         case '+':
-            return num1 + num2;
+            return Math.round((num1 + num2) * 10000000000000) / 10000000000000;
         case '-':
-            return num1 - num2;
+            return Math.round((num1 - num2) * 10000000000000) / 10000000000000;
         case 'x':
-            return num1 * num2;
+            return Math.round((num1 * num2) * 10000000000000) / 10000000000000; 
         case '/':
-            if (num2 === 0) return 'IMPOSSIBLE'
-                // num1 = null;
-                // num2 = null;
-                // input = null;
-                // history = null;
-                // displayHistory.innerText = '';
-                // displayResult.innerText = '';
-                // zeroDisplay.innerText = 'Cannot divide by 0';
-            
-            return num1 / num2;
+            if (num2 === 0) return 'IMPOSSIBLE';            
+            return Math.round((num1 / num2) * 10000000000000) / 10000000000000;
     }
 }
 
