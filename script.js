@@ -1,10 +1,3 @@
-// TO-DO
-
-// Add function for add
-// Add function for substract
-// Add function for multiply
-// Add function for divide
-
 let num1 = null;
 let operator = null;
 let num2 = null;
@@ -19,8 +12,6 @@ let equalButton = document.querySelector('.equals');
 let clearButton = document.querySelector('.clear');
 let zeroDisplay = document.querySelector('.zero-division-message');
 
-
-// Assign event listeners to all numbers
 numButtons.forEach((button) => {
     button.addEventListener('click', () => {
         if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
@@ -120,17 +111,4 @@ function operate(num1, operator, num2) {
             return Math.round((num1 / num2) * 10000000000000) / 10000000000000;
     }
 }
-
-
-// 1. User clicks a number
-    // num is shown in the calculator's main display, and stored in variable (INPUT)
-    // Numbers are added as user clicks, to display and to INPUT
-
-// 2. User clicks an operator
-    // INPUT is sent to HISTORY (history display), assigned to NUM1 and cleared. 
-    // OPERATOR is assigned the value of whatever the user clicked
-
-// 3. User clicks more numbers afterwards = repeat steps 1-2 ()
-
-// 4. User clicks 'equals' button and OPERATE function is called. RESULT is displayed in the main display.
 
