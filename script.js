@@ -8,12 +8,15 @@
 let num1 = null;
 let operator = null;
 let num2 = null;
+let result = null;
 let input = null;
 let history = null;
-let displayResult = document.querySelector('.display-result')
+let displayResult = document.querySelector('.display-result');
+let displayHistory = document.querySelector('.display-history');
 let numButtons = document.querySelectorAll('.number');
 let operatorButtons = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.equals')
+let clearButton = document.querySelector('.clear')
 
 // Assign event listeners to all numbers
 numButtons.forEach((button) => {
@@ -30,29 +33,54 @@ numButtons.forEach((button) => {
 
 operatorButtons.forEach((button) => {
     button.addEventListener('click', () => {
-        operator = button.innerText;
-        if (num1 === null) {
+        if (num1 === null && input != null) {
             num1 = input;
+            operator = button.innerText;
+            displayHistory.innerText = input + ' ' + operator;
         }
         else {
-            num2 = input;
+            num2 = parseInt(input);
+            result = operate(parseInt(num1), operator , num2);
+            displayResult.innerText = result;  
+            num1 = result;
+            num2 = null;
+            operator = button.innerText;
+            displayHistory.innerText = result + ' ' + operator;
         }
+
         input = null;
 
     })
 })
 
 equalButton.addEventListener('click', () => {
-    if (num1 === null && input != null) {
-        console.log(input);
+    // If equals is clicked and no input has been received, do nothing
+    if (num1 === null) { 
+        displayResult.innerText = ' ';
     }
+    // 
     else if (num2 === null) {
-        console.log(operate(parseInt(num1), operator, parseInt(input)))
-        
+        num2 = parseInt(input);
+        if (isNaN(num2)) {
+            num2 = num1;
+        }
+        displayHistory.innerText += ' ' + num2;
+        result = operate(parseInt(num1), operator, num2);
+        displayResult.innerText = result;
     }
+    // 
     else {
-        console.log(operate(parseInt(num1), operator, parseInt(num2)));
+        displayResult.innerText = operate(parseInt(num1), operator, parseInt(num2));
     }
+})
+
+clearButton.addEventListener('click', () => {
+    num1 = null;
+    num2 = null;
+    input = null;
+    history = null;
+    displayResult.innerText = '';
+    displayHistory.innerText = '';
 })
 
 function operate(num1, operator, num2) {
