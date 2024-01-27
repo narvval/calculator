@@ -26,6 +26,10 @@
     font-weight: bold;
 }
 
+.zero-division-message {
+    font-size: 30px;
+}
+
 .display-history {
     color: darkgray;
     font-size: 20px;
