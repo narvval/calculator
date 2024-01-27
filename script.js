@@ -89,14 +89,13 @@ clearButton.addEventListener('click', () => {
 })
 
 decimalButton.addEventListener('click', () => {
-// NOTE: 'decimal' always works on the INPUT, not on the nums or history display
     if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
     
     if (input === null) {
         input = '0.';
         displayResult.innerText = input;
     }
-    else {
+    else if (input.indexOf('.') == -1) { // Prevent user from adding multiple decimals in one number
         input += '.';
         displayResult.innerText = input;
     }
