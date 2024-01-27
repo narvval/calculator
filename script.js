@@ -11,6 +11,7 @@ let operatorButtons = document.querySelectorAll('.operator');
 let equalButton = document.querySelector('.equals');
 let clearButton = document.querySelector('.clear');
 let zeroDisplay = document.querySelector('.zero-division-message');
+let decimalButton = document.querySelector('.decimal')
 
 numButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -34,8 +35,8 @@ operatorButtons.forEach((button) => {
             displayHistory.innerText = input + ' ' + operator;
         }
         else {
-            num2 = parseInt(input);
-            result = operate(parseInt(num1), operator , num2);
+            num2 = parseFloat(input);
+            result = operate(parseFloat(num1), operator , num2);
             if (result === 'IMPOSSIBLE') displayZeroError();
             else {
                 displayResult.innerText = result;  
@@ -60,18 +61,18 @@ equalButton.addEventListener('click', () => {
     }
     // 
     else if (num2 === null) {
-        num2 = parseInt(input);
+        num2 = parseFloat(input);
         if (isNaN(num2)) {
             num2 = num1;
         }
         displayHistory.innerText += ' ' + num2;
-        result = operate(parseInt(num1), operator, num2);
+        result = operate(parseFloat(num1), operator, num2);
         if (result === 'IMPOSSIBLE') displayZeroError();
         else displayResult.innerText = result;
     }
     // 
     else {
-        result = operate(parseInt(num1), operator, parseInt(num2));
+        result = operate(parseFloat(num1), operator, parseFloat(num2));
         if (result === 'IMPOSSIBLE') displayZeroError();
         else displayResult.innerText = result;
     }
@@ -85,6 +86,20 @@ clearButton.addEventListener('click', () => {
     displayResult.innerText = '';
     displayHistory.innerText = '';
     zeroDisplay.innerText = '';
+})
+
+decimalButton.addEventListener('click', () => {
+// NOTE: 'decimal' always works on the INPUT, not on the nums or history display
+    if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
+    
+    if (input === null) {
+        input = '0.';
+        displayResult.innerText = input;
+    }
+    else {
+        input += '.';
+        displayResult.innerText = input;
+    }
 })
 
 function displayZeroError() {
@@ -111,4 +126,3 @@ function operate(num1, operator, num2) {
             return Math.round((num1 / num2) * 10000000000000) / 10000000000000;
     }
 }
-
