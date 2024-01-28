@@ -23,6 +23,7 @@ let decimalButton = document.querySelector('.decimal');
 
 numButtons.forEach((button) => {
     button.addEventListener('click', () => {
+        addColumn();
         if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
         if (input === null) {
             input = button.innerText;
@@ -61,7 +62,6 @@ operatorButtons.forEach((button) => {
 })
 
 equalButton.addEventListener('click', () => {
-    // If equals is clicked and no input has been received, do nothing
     if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
     else if (num1 === null) { 
         if (input === null) displayResult.innerText = ' ';
@@ -99,7 +99,6 @@ clearButton.addEventListener('click', () => {
 
 deleteButton.addEventListener('click', () => {
     if (result) {
-        console.log('case 1')
         if (result) {
             result = parseFloat(result.toString().slice(0, -1));
             if (isNaN(result)) result = 0;
@@ -108,11 +107,12 @@ deleteButton.addEventListener('click', () => {
             input = result;
             num2 = null;
         }
+        historyDisplayFix();
     }
     else if (input) {
-        console.log('elseif')
         input = input.slice(0, -1);
         displayResult.innerText = input;
+        historyDisplayFix();
     }
 })
 
@@ -152,4 +152,23 @@ function operate(num1, operator, num2) {
             if (num2 === 0) return 'IMPOSSIBLE';            
             return Math.round((num1 / num2) * 10000000000000) / 10000000000000;
     }
+}
+
+
+// Fix CSS styling when display is empty but history is not
+let display = document.querySelector('.display');
+
+function historyDisplayFix() {
+    if (displayResult.innerText.length == 0 && displayHistory.innerText.length != 0) {
+        display.classList.remove('column');
+    }
+    else {
+        display.classList.add('column');
+    }
+}
+
+// Sometimes historyDisplayFix() does not update in time, even if check for 'input' is added. 
+// It was necessary to add below to 'numButton' click event to ensure this gets added even before 'input' is loaded 
+function addColumn() {
+    display.classList.add('column');
 }
