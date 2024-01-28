@@ -1,6 +1,4 @@
 // TO-DO
-// Add “backspace” button functionality
-// Fix 'operator' double-click returning NaN
 // Add % functionality
 // Add button animations (i.e., look pressed when clicking)
 // Add title / styling to whole page
@@ -37,13 +35,13 @@ numButtons.forEach((button) => {
 
 operatorButtons.forEach((button) => {
     button.addEventListener('click', () => {
-        if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
+        if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = ''; // If 'cannot divide by 0' message is showing, delete it
         else if (num1 === null && input != null) {
             num1 = input;
             operator = button.innerText;
             displayHistory.innerText = input + ' ' + operator;
         }
-        else {
+        else if (input != null) {
             num2 = parseFloat(input);
             result = operate(parseFloat(num1), operator , num2);
             if (result === 'IMPOSSIBLE') displayZeroError();
@@ -62,7 +60,7 @@ operatorButtons.forEach((button) => {
 })
 
 equalButton.addEventListener('click', () => {
-    if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
+    if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = ''; // If 'cannot divide by 0' message is showing, delete it
     else if (num1 === null) { 
         if (input === null) displayResult.innerText = ' ';
         else displayResult.innerText = input;
