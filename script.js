@@ -1,6 +1,6 @@
 // TO-DO
-// Add button animations (i.e., look pressed when clicking)
 // Add title / styling to whole page
+// Fix padding issue: overflow does not respect left padding in display
 
 let num1 = null;
 let operator = null;

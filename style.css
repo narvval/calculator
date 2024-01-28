@@ -57,6 +57,10 @@ button {
     flex: 20%;
 }
 
+button:active {
+    transform: translateY(2px);
+}
+
 .zero {
     flex: 40%;
 }
