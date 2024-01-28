@@ -1,5 +1,4 @@
 // TO-DO
-// Add % functionality
 // Add button animations (i.e., look pressed when clicking)
 // Add title / styling to whole page
 
@@ -18,6 +17,7 @@ let clearButton = document.querySelector('.clear');
 let deleteButton = document.querySelector('.delete');
 let zeroDisplay = document.querySelector('.zero-division-message');
 let decimalButton = document.querySelector('.decimal');
+let percentButton = document.querySelector('.percent')
 
 numButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -123,6 +123,13 @@ decimalButton.addEventListener('click', () => {
     }
     else if (input.indexOf('.') == -1) { // Prevent user from adding multiple decimals in one number
         input += '.';
+        displayResult.innerText = input;
+    }
+})
+
+percentButton.addEventListener('click', () => {
+    if (input) {
+        input = parseFloat(input) * .01;
         displayResult.innerText = input;
     }
 })
