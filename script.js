@@ -1,4 +1,5 @@
 // TO-DO
+// Why the fuck does 82 + % = 0.820000000001 ?!??!!
 // Add title / styling to whole page
 
 let num1 = null;
@@ -6,7 +7,6 @@ let operator = null;
 let num2 = null;
 let result = null;
 let input = null;
-let history = null;
 let displayResult = document.querySelector('.display-result');
 let displayHistory = document.querySelector('.display-history');
 let numButtons = document.querySelectorAll('.number');
@@ -24,6 +24,13 @@ numButtons.forEach((button) => {
         if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
         if (input === null) {
             input = button.innerText;
+        }
+        else if (input != null && result != null) { // Prevents user from adding numbers to result; starts fresh
+            input = button.innerText;
+            num1 = null;
+            num2 = null;
+            result = null;
+            displayHistory.innerText = '';
         }
         else {
             input += button.innerText;
@@ -107,7 +114,7 @@ deleteButton.addEventListener('click', () => {
         historyDisplayFix();
     }
     else if (input) {
-        input = input.slice(0, -1);
+        input = input.toString().slice(0, -1);
         displayResult.innerText = input;
         historyDisplayFix();
     }
@@ -116,18 +123,31 @@ deleteButton.addEventListener('click', () => {
 decimalButton.addEventListener('click', () => {
     if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
     
-    if (input === null) {
+    if (input === null && result === null) {
         input = '0.';
         displayResult.innerText = input;
     }
-    else if (input.indexOf('.') == -1) { // Prevent user from adding multiple decimals in one number
+    else if (input != null && result != null) { // Prevents user from adding decimal to result; starts fresh
+        input = '0.';
+        num1 = null;
+        num2 = null;
+        result = null;
+        displayHistory.innerText = '';
+        displayResult.innerText = input;
+    }
+    else if (input.indexOf('.') == -1 && result === null) { // Prevent user from adding multiple decimals in one number
         input += '.';
         displayResult.innerText = input;
     }
 })
 
 percentButton.addEventListener('click', () => {
-    if (input) {
+    // if (result) { 
+    //     result = parseFloat(result) * .01;
+    //     displayResult.innerText = result;
+    //     num1 = result;
+    // }
+    if (input && result === null) {
         input = parseFloat(input) * .01;
         displayResult.innerText = input;
     }
@@ -137,7 +157,6 @@ function displayZeroError() {
     num1 = null;
     num2 = null;
     input = null;
-    history = null;
     result = null;
     displayHistory.innerText = '';
     displayResult.innerText = '';
