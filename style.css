@@ -20,9 +20,21 @@
     display: flex;
     justify-content: end;
     padding: 5px 20px; 
+    border-left: 10px lightgrey solid; /* Ensure 'overflow' respects left padding */
     font-size: 40px;
     font-weight: bold;
     overflow: hidden;
+}
+
+.display-history {
+    color: darkgray;
+    font-size: 20px;
+    overflow: hidden;
+}
+
+.display-result {
+    overflow: hidden;
+    white-space: nowrap; /* Prevents text from wrapping, as 'flex-wrap: nowrap' is not enough */
 }
 
 .column {
@@ -34,11 +46,6 @@
     font-size: 30px;
 }
 
-.display-history {
-    color: darkgray;
-    font-size: 20px;
-    overflow: hidden;
-}
 
 .buttons-container {
     display: flex;
