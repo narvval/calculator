@@ -1,5 +1,4 @@
 // TO-DO
-// Why the fuck does 82 + % = 0.820000000001 ?!??!!
 // Add title / styling to whole page
 
 let num1 = null;
@@ -142,13 +141,8 @@ decimalButton.addEventListener('click', () => {
 })
 
 percentButton.addEventListener('click', () => {
-    // if (result) { 
-    //     result = parseFloat(result) * .01;
-    //     displayResult.innerText = result;
-    //     num1 = result;
-    // }
     if (input && result === null) {
-        input = parseFloat(input) * .01;
+        input = (parseFloat(input) * .01).toFixed(2); // Fixes incorrect JS math with floats, where 82*.01 = .820000001
         displayResult.innerText = input;
     }
 })
