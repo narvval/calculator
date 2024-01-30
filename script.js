@@ -70,7 +70,6 @@ equalButton.addEventListener('click', () => {
         if (input === null) displayResult.innerText = ' ';
         else displayResult.innerText = input;
     }
-    // 
     else if (num2 === null) {
         num2 = parseFloat(input);
         if (isNaN(num2)) {
@@ -81,7 +80,6 @@ equalButton.addEventListener('click', () => {
         if (result === 'IMPOSSIBLE') displayZeroError();
         else displayResult.innerText = result;
     }
-    // 
     else {
         result = operate(parseFloat(num1), operator, parseFloat(num2));
         if (result === 'IMPOSSIBLE') displayZeroError();
