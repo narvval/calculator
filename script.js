@@ -168,6 +168,15 @@ function applyOperator(op) {
                 displayHistory.innerText = result + ' ' + operator;
             }
         }
+        else if (input != null && num1 != null) {
+            result = operate(parseFloat(num1), operator , input);
+            displayResult.innerText = result;  
+            num1 = result;
+            num2 = null;
+            operator = op;
+            displayHistory.innerText = result + ' ' + operator;
+
+        }
 
         input = null;
 
