@@ -137,13 +137,14 @@ function displayNumber(number) {
             displayHistory.innerText.includes('/') == true || 
             displayHistory.innerText.includes('*') == true) 
         { 
-        input = number;
         num1 = null;
         num2 = null;
         result = null;
+        input = number;
     }
     else {
         input += number;
+        result = null;
     }
     displayResult.innerText = input;   
 
