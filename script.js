@@ -1,5 +1,4 @@
 // TO-DO
-// FIX BUG: 20+20=40; upon pressing a number more than once clears it (LOGIC IS INCORRECT: solution: check history for an operator)
 
 let num1 = null;
 let operator = null;
@@ -115,7 +114,6 @@ document.body.addEventListener('keydown', (ev) => {
         applyEqual();
     }
     else if (key == 'Delete' || key == 'Backspace') { // NOTE: these do NOT work with 'keypress', only 'keydown'
-        console.log(key)
         applyDelete();
     }
     else if (key == 'Escape') {
@@ -131,17 +129,24 @@ function displayNumber(number) {
     if (input === null) {
         input = number;
     }
-    else if (input != null && result != null) { // Prevents user from adding numbers to result; starts fresh
+    // Prevents user from appending numbers to result. If number is pressed, starts fresh (i.e., AC)
+    else if (input != null && 
+            result != null && 
+            displayHistory.innerText.includes('+') == true || 
+            displayHistory.innerText.includes('-') == true || 
+            displayHistory.innerText.includes('/') == true || 
+            displayHistory.innerText.includes('*') == true) 
+        { 
         input = number;
         num1 = null;
         num2 = null;
         result = null;
-        displayHistory.innerText = '';
     }
     else {
         input += number;
     }
     displayResult.innerText = input;   
+
 }
 
 function applyOperator(op) {
