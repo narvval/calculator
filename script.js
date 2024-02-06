@@ -137,7 +137,6 @@ function displayNumber(number) {
     }
     else {
         input += number;
-        console.log('c ' + key)
     }
     displayResult.innerText = input;   
 }
