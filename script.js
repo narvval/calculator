@@ -2,6 +2,7 @@
 let operator = null;
 let result = null;
 let input = null;
+let enter = false;
 let displayResult = document.querySelector('.display-result');
 let displayHistory = document.querySelector('.display-history');
 let numButtons = document.querySelectorAll('.number');
@@ -99,10 +100,8 @@ document.body.addEventListener('keydown', (ev) => {
         displayNumber(key);
     }
     else if (key == '/' || key == '*' || key == '-' || key == '+') {
-        if (key == '*') { // Display history reads 'x' instead of '*'. Just a design choice.
-            key = 'x';
-        }
-        applyOperator(key);
+        if (key == '*') applyOperator('x'); // Display history reads 'x' instead of '*'. Just a design choice.
+        else applyOperator(key);
     }
     else if (key == '.' || key == ',') {
         applyDecimal();
@@ -110,6 +109,7 @@ document.body.addEventListener('keydown', (ev) => {
     else if (key == 'Enter') {
         ev.preventDefault(); // Prevents 'Enter' key from triggering previously pressed/highlighted key
         applyEqual();
+        enter = true;
     }
     else if (key == 'Delete' || key == 'Backspace') { // NOTE: these do NOT work with 'keypress', only 'keydown'
         applyDelete();
@@ -125,45 +125,51 @@ function displayNumber(number) {
 
     if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
 
-    if (input === null) {
+    // Prevents user from appending numbers to result. If number is pressed, starts fresh (i.e., AC)
+    if (enter === true) {
+        input = number;
+        result = null;
+        enter = false;
+    }
+
+    else if (input === null) {
         input = number;
     }
-    // Prevents user from appending numbers to result. If number is pressed, starts fresh (i.e., AC)
-    // else if (input != null && 
-    //         result != null && 
-    //         displayHistory.innerText.includes('+') == true || 
-    //         displayHistory.innerText.includes('-') == true || 
-    //         displayHistory.innerText.includes('/') == true || 
-    //         displayHistory.innerText.includes('*') == true) 
-    //     { 
-    //     result = null;
-    //     input = number;
-    // }
     else {
         input += number;
+        console.log('c ' + key)
     }
     displayResult.innerText = input;   
-
 }
 
 function applyOperator(op) {
 
         if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = ''; // If 'cannot divide by 0' message is showing, delete it
-        else if (input === null && result != null) {
+        if (input === null && result != null) {
+            operator = op;
             displayHistory.innerText = result + ' ' + operator;
         }
         else if (input != null && 
                 (displayHistory.innerText.includes('+') == true || 
                 displayHistory.innerText.includes('-') == true || 
                 displayHistory.innerText.includes('/') == true || 
-                displayHistory.innerText.includes('*') == true)) {
-            displayHistory.innerText = result + ' ' + operator + ' ' + input;
-            result = (operate(parseFloat(result), operator, parseFloat(input))).toString();
-            if (result === 'IMPOSSIBLE') displayZeroError();
-            displayResult.innerText = result;
-            input = null;
-            operator = op;
-
+                displayHistory.innerText.includes('x') == true)) {
+            
+            if (result === null) {
+                operator = op;
+                result = input;
+                input = null;
+                displayHistory.innerText = result + ' ' + operator;
+            }
+            
+            else {
+                displayHistory.innerText = result + ' ' + operator + ' ' + input;
+                result = (operate(parseFloat(result), operator, parseFloat(input))).toString();
+                if (result === 'IMPOSSIBLE') displayZeroError();
+                displayResult.innerText = result;
+                input = null;
+                operator = op;
+            }
         }
         else if (input != null) {
             operator = op;
