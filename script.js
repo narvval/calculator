@@ -1,8 +1,5 @@
-// TO-DO
 
-let num1 = null;
 let operator = null;
-let num2 = null;
 let result = null;
 let input = null;
 let displayResult = document.querySelector('.display-result');
@@ -53,8 +50,6 @@ percentButton.addEventListener('click', () => {
 })
 
 function displayZeroError() {
-    num1 = null;
-    num2 = null;
     input = null;
     result = null;
     displayHistory.innerText = '';
@@ -65,15 +60,15 @@ function displayZeroError() {
 function operate(num1, operator, num2) {
     switch (operator) {
         case '+':
-            return Math.round((num1 + num2) * 10000000000000) / 10000000000000;
+            return Math.round((num1 + num2) * 1000000) / 1000000;
         case '-':
-            return Math.round((num1 - num2) * 10000000000000) / 10000000000000;
+            return Math.round((num1 - num2) * 1000000) / 1000000;
         case 'x':
         case '*':
-            return Math.round((num1 * num2) * 10000000000000) / 10000000000000; 
+            return Math.round((num1 * num2) * 1000000) / 1000000; 
         case '/':
             if (num2 === 0) return 'IMPOSSIBLE';            
-            return Math.round((num1 / num2) * 10000000000000) / 10000000000000;
+            return Math.round((num1 / num2) * 1000000) / 1000000;
     }
 }
 
@@ -104,6 +99,9 @@ document.body.addEventListener('keydown', (ev) => {
         displayNumber(key);
     }
     else if (key == '/' || key == '*' || key == '-' || key == '+') {
+        if (key == '*') { // Display history reads 'x' instead of '*'. Just a design choice.
+            key = 'x';
+        }
         applyOperator(key);
     }
     else if (key == '.' || key == ',') {
@@ -124,87 +122,67 @@ document.body.addEventListener('keydown', (ev) => {
 
 function displayNumber(number) {
     addColumn();
+
     if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
 
     if (input === null) {
         input = number;
     }
     // Prevents user from appending numbers to result. If number is pressed, starts fresh (i.e., AC)
-    else if (input != null && 
-            result != null && 
-            displayHistory.innerText.includes('+') == true || 
-            displayHistory.innerText.includes('-') == true || 
-            displayHistory.innerText.includes('/') == true || 
-            displayHistory.innerText.includes('*') == true) 
-        { 
-        num1 = null;
-        num2 = null;
-        result = null;
-        input = number;
-    }
+    // else if (input != null && 
+    //         result != null && 
+    //         displayHistory.innerText.includes('+') == true || 
+    //         displayHistory.innerText.includes('-') == true || 
+    //         displayHistory.innerText.includes('/') == true || 
+    //         displayHistory.innerText.includes('*') == true) 
+    //     { 
+    //     result = null;
+    //     input = number;
+    // }
     else {
         input += number;
-        result = null;
     }
     displayResult.innerText = input;   
 
 }
 
 function applyOperator(op) {
+
         if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = ''; // If 'cannot divide by 0' message is showing, delete it
-        else if (num1 === null && input != null) {
-            num1 = input;
+        else if (input === null && result != null) {
+            displayHistory.innerText = result + ' ' + operator;
+        }
+        else if (input != null && 
+                (displayHistory.innerText.includes('+') == true || 
+                displayHistory.innerText.includes('-') == true || 
+                displayHistory.innerText.includes('/') == true || 
+                displayHistory.innerText.includes('*') == true)) {
+            displayHistory.innerText = result + ' ' + operator + ' ' + input;
+            result = (operate(parseFloat(result), operator, parseFloat(input))).toString();
+            if (result === 'IMPOSSIBLE') displayZeroError();
+            displayResult.innerText = result;
+            input = null;
             operator = op;
-            displayHistory.innerText = input + ' ' + operator;
+
         }
         else if (input != null) {
-            num2 = parseFloat(input);
-            result = operate(parseFloat(num1), operator , num2);
-            if (result === 'IMPOSSIBLE') displayZeroError();
-            else {
-                displayResult.innerText = result;  
-                num1 = result;
-                num2 = null;
-                operator = op;
-                displayHistory.innerText = result + ' ' + operator;
-            }
-        }
-        else if (input != null && num1 != null) {
-            result = operate(parseFloat(num1), operator , input);
-            displayResult.innerText = result;  
-            num1 = result;
-            num2 = null;
             operator = op;
+
+            result = input;
+            input = null;
             displayHistory.innerText = result + ' ' + operator;
-
         }
-
-        input = null;
-
 }
 
 function applyEqual() {
     if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = ''; // If 'cannot divide by 0' message is showing, delete it
-    else if (num1 === null) { 
-        if (input === null) displayResult.innerText = ' ';
-        else displayResult.innerText = input;
-    }
-    else if (num2 === null) {
-        num2 = parseFloat(input);
-        if (isNaN(num2)) {
-            num2 = num1;
-        }
-        displayHistory.innerText += ' ' + num2;
-        result = operate(parseFloat(num1), operator, num2);
+    else if (input != null && result != null) {
+        displayHistory.innerText = result + ' ' + operator + ' ' + input;
+        result = (operate(parseFloat(result), operator, parseFloat(input))).toString();
         if (result === 'IMPOSSIBLE') displayZeroError();
-        else displayResult.innerText = result;
+        input = null;
+        displayResult.innerText = result;
     }
-    else {
-        result = operate(parseFloat(num1), operator, parseFloat(num2));
-        if (result === 'IMPOSSIBLE') displayZeroError();
-        else displayResult.innerText = result;
-    }
-
 }
 
 function applyDecimal() {
@@ -216,8 +194,6 @@ function applyDecimal() {
     }
     else if (input != null && result != null) { // Prevents user from adding decimal to result; starts fresh
         input = '0.';
-        num1 = null;
-        num2 = null;
         result = null;
         displayHistory.innerText = '';
         displayResult.innerText = input;
@@ -250,8 +226,6 @@ function applyDelete() {
 }
 
 function applyClear() {
-    num1 = null;
-    num2 = null;
     input = null;
     history = null;
     result = null;
