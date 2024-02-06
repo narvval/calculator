@@ -193,17 +193,21 @@ function applyEqual() {
 function applyDecimal() {
     if (zeroDisplay.innerText.length != 0) zeroDisplay.innerText = '';
     
-    if (input === null && result === null) {
-        input = '0.';
-        displayResult.innerText = input;
-    }
-    else if (input != null && result != null) { // Prevents user from adding decimal to result; starts fresh
+    if (enter === true) { // Prevents user from adding decimal to result; starts fresh
         input = '0.';
         result = null;
         displayHistory.innerText = '';
         displayResult.innerText = input;
+        enter = false;
     }
-    else if (input.indexOf('.') == -1 && result === null) { // Prevent user from adding multiple decimals in one number
+
+    else if (input === null) {
+        input = '0.';
+        displayResult.innerText = input;
+        enter = false;
+    }
+
+    else if (input.indexOf('.') == -1) { // Prevent user from adding multiple decimals in one number
         input += '.';
         displayResult.innerText = input;
     }
