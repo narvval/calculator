@@ -215,20 +215,17 @@ function applyDecimal() {
 }
 
 function applyDelete() {
-    if (result) {
-        if (result) {
-            result = parseFloat(result.toString().slice(0, -1));
-            if (isNaN(result)) result = 0;
-            displayResult.innerText = result;
-            num1 = null;
-            input = result;
-            num2 = null;
-        }
+    if (result != null && input === null) {
+        result = parseFloat(result.toString().slice(0, -1));
+        if (isNaN(result)) result = 0;
+        displayResult.innerText = result;
+        input = result;
         historyDisplayFix();
     }
     else if (input) {
         input = input.toString().slice(0, -1);
         displayResult.innerText = input;
+        if (input.length === 0) input = null;
         historyDisplayFix();
     }
 
